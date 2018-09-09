@@ -1,0 +1,204 @@
+ACTIONS
+	DISPLAY "Smartphone"
+	FIND Result
+   DISPLAY "Kerusakan smartphone pada : {Result}-.";
+
+
+RULE 1
+IF G1 = Ya OR
+   G2 = Ya OR
+   G3 = Ya OR
+   G4 = Ya 
+THEN Result = Tanda_Bahaya_Umum;
+
+RULE 2
+IF K1 = Ya AND
+   G5 = Ya
+THEN Result = Batuk;
+
+RULE 3
+IF K1 = Ya AND
+   G6 = Ya
+THEN Result = Pneumonia;
+
+RULE 4
+IF K1 = Ya AND
+   P1 = Ya OR
+   G7 = Ya OR
+   G8 = Ya
+THEN Result = Pneumonia_Berat;
+
+RULE 5
+IF K2 = Ya AND
+   G9 = Ya
+THEN Result = Diare;
+
+RULE 6
+IF K2 = Ya AND
+   G9 = Ya AND
+   G10 = Ya AND
+   G14 = Ya OR
+   G15 = Ya OR
+   G16 = Ya
+THEN Result = Diare_Dehidrasi_Ringan;
+
+RULE 7
+IF K2 = Ya AND
+   G9 = Ya AND
+   G17 = Ya
+THEN Result = Diare_Dehidrasi_Ringan;
+
+RULE 8
+IF K2 = Ya AND
+   G9 = Ya AND
+   G17 = Ya
+THEN Result = Diare_Persisten;
+
+RULE 9
+IF K2 = Ya AND
+   G9 = Ya AND
+   G10 = Ya AND
+   G14 = Ya OR
+   G15 = Ya OR
+   G16 = Ya OR
+   K2 = Ya AND
+   G9 = Ya AND
+   G17 = Ya
+THEN Result = Diare_Persisten_Berat;
+
+RULE 10
+IF K2 = Ya AND
+   G9 = Ya AND
+   G18 = Ya
+THEN Result = Disentri;
+
+RULE 11
+IF K3 = Ya AND
+   G19 = Ya
+THEN Result = Demam;
+
+RULE 12
+IF G1 = Ya OR
+   G2 = Ya OR
+   G3 = Ya OR
+   G4 = Ya AND
+   K3 = Ya AND
+   G19 = Ya OR
+   G20 = Ya
+THEN Result = Demam_dengan_tanda_bahaya_umum;
+
+RULE 13
+IF K3 = Ya AND
+   G19 = Ya AND
+   G21 = Ya AND
+   G22 = Ya OR
+   G25 = Ya
+THEN Result = Campak;
+
+RULE 14
+IF K3 = Ya AND
+   G19 = Ya AND
+   G21 = Ya AND
+   G22 = Ya OR
+   G25 = Ya AND
+   G1 = Ya OR
+   G2 = Ya OR
+   G3 = Ya OR
+   G4 = Ya AND
+   G23 = Ya OR
+   G24 = Ya
+THEN Result = Campak_dengan_komplikasi_berat;
+
+RULE 15
+IF K3 = Ya AND
+   G19 = Ya AND
+   G21 = Ya AND
+   G22 = Ya OR
+   G25 = Ya AND
+   G25 = Ya OR
+   G26 = Ya
+THEN Result = Campak_dengan_komplikasi;
+
+RULE 16
+IF K3 = Ya AND
+   G19 = Ya AND
+   G27 = Ya AND
+   G28 = Ya AND 
+   G29 = Ya OR
+   G30 = Ya
+THEN Result = Demam_Mungkin_DBD;
+
+RULE 17
+IF K3 = Ya AND
+   G19 = Ya AND
+   G27 = Ya AND
+   G28 = Ya AND 
+   G31 = Ya OR
+   G32 = Ya OR
+   G33 = Ya OR
+   G34 = Ya
+THEN Result = DBD;
+
+RULE 18
+IF K3 = Ya AND
+   G19 = Ya AND
+   G35 = Ya OR
+   G36 = Ya
+THEN Result = Demam_Bukan_DBD
+
+ASK baterai_tidak_mengisi : "Baterai Tidak Dapat Mengisi ?";
+CHOICES baterai_tidak_mengisi : Ya, Tidak;
+
+ASK baterai_drop : "Apakah Baterai Sering Drop   ?";
+CHOICES baterai_drop : Ya, Tidak;
+
+ASK baterai_cepat_panas : "Baterai Cepat Panas ?";
+CHOICES baterai_cepat_panas : Ya, Tidak;
+
+ASK langsung_mati : "Langsung Mati Saat Menelfon  ?";
+CHOICES langsung_mati : Ya, Tidak;
+
+ASK baterai_menggelembung : "Apakah Baterai Menggelembung ?";
+CHOICES baterai_menggelembung : Ya, Tidak;
+
+
+
+ASK white_screen : "Apakah Sering Terjadi White Screen     ?";
+CHOICES white_screen : Ya, Tidak;
+
+ASK blank_screen : "Apakah Sering Terjadi Blank Screen     ?";
+CHOICES blank_screen : Ya, Tidak;
+
+ASK smartphone_panas : "Apakah Smartphone Anda Sering Panas    ?";
+CHOICES smartphone_panas : Ya, Tidak;
+
+ASK insert_sim_card : "Sering Terjadi Notifikasi 'insert sim card' ?";
+CHOICES insert_sim_card : Ya, Tidak;
+
+ASK mati_sendiri : "Smartphone Sering Mati Sendiri ?";
+CHOICES mati_sendiri : Ya, Tidak;
+
+
+
+ASK aplikasi : "Tidak dapat menggunakan touch screen dan membuka aplikasi apapun ?";
+CHOICES aplikasi : Ya, Tidak;
+
+ASK garis_pada_layar : "Terdapat Bercak atau Garis pada Layar  ?";
+CHOICES garis_pada_layar : Ya, Tidak;
+
+ASK layar_buram : "Apakah Layar Buram ?";
+CHOICES layar_buram : Ya, Tidak;
+
+ASK layar_pecah : "Apakah Layar Pecah ?";
+CHOICES layar_pecah : Ya, Tidak;
+
+
+
+ASK mengisi_daya : "Tidak Berhenti Mengisi Daya            ?";
+CHOICES mengisi_daya : Ya, Tidak;
+
+ASK proses : "Tidak Dapat Memproses Suatu Aplikasi   ?";
+CHOICES proses : Ya, Tidak;
+
+ASK reboot : "Smartphone Re-boot Secara Tiba-Tiba    ?";
+CHOICES reboot : Ya, Tidak;

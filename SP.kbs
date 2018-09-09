@@ -1,0 +1,122 @@
+ACTIONS
+	DISPLAY "Smartphone"
+	FIND Result
+   DISPLAY "Kerusakan smartphone pada : {Result}-.";
+
+
+RULE 1
+IF garis_pada_layar = Ya AND
+   layar_pecah = Ya AND
+   layar_buram = Ya AND
+   aplikasi = Ya AND
+   white_screen = Ya
+THEN Result = LCD;
+
+RULE 2
+IF baterai_drop = Ya AND
+   mati_sendiri = Ya AND
+   smartphone_panas = Ya AND
+   insert_sim_card = Ya AND
+   baterai_tidak_mengisi = Ya AND
+   blank_screen = Ya AND
+   white_screen = Ya
+THEN Result = IC_Power_Supply;
+
+RULE 3
+IF proses = Ya AND
+   blank_screen = Ya AND
+   reboot = Ya AND
+   mengisi_daya = Ya
+THEN Result = Software;
+
+RULE 4
+IF baterai_drop = Ya AND
+   baterai_cepat_panas = Ya AND
+   baterai_menggelembung = Ya AND
+   mengisi_daya = Ya AND
+   langsung_mati = Ya
+THEN Result = Baterai;
+
+RULE 5
+IF garis_pada_layar = Ya OR
+   layar_pecah = Ya 
+THEN Result = LCD;
+
+RULE 6
+IF insert_sim_card = Ya OR
+   baterai_tidak_mengisi = Ya OR
+   blank_screen = Ya OR
+   white_screen = Ya
+THEN Result = IC_Power_Supply;
+
+RULE 7
+IF proses = Ya OR
+   blank_screen = Ya OR
+   reboot = Ya
+THEN Result = Software;
+
+RULE 8
+IF baterai_drop = Ya OR
+   baterai_cepat_panas = Ya OR
+   baterai_menggelembung = Ya OR
+   mengisi_daya = Ya OR
+   langsung_mati = Ya
+THEN Result = Baterai;
+
+
+ASK baterai_tidak_mengisi : "Baterai Tidak Dapat Mengisi ?";
+CHOICES baterai_tidak_mengisi : Ya, Tidak;
+
+ASK baterai_drop : "Apakah Baterai Sering Drop   ?";
+CHOICES baterai_drop : Ya, Tidak;
+
+ASK baterai_cepat_panas : "Baterai Cepat Panas ?";
+CHOICES baterai_cepat_panas : Ya, Tidak;
+
+ASK langsung_mati : "Langsung Mati Saat Menelfon  ?";
+CHOICES langsung_mati : Ya, Tidak;
+
+ASK baterai_menggelembung : "Apakah Baterai Menggelembung ?";
+CHOICES baterai_menggelembung : Ya, Tidak;
+
+
+
+ASK white_screen : "Apakah Sering Terjadi White Screen     ?";
+CHOICES white_screen : Ya, Tidak;
+
+ASK blank_screen : "Apakah Sering Terjadi Blank Screen     ?";
+CHOICES blank_screen : Ya, Tidak;
+
+ASK smartphone_panas : "Apakah Smartphone Anda Sering Panas    ?";
+CHOICES smartphone_panas : Ya, Tidak;
+
+ASK insert_sim_card : "Sering Terjadi Notifikasi 'insert sim card' ?";
+CHOICES insert_sim_card : Ya, Tidak;
+
+ASK mati_sendiri : "Smartphone Sering Mati Sendiri ?";
+CHOICES mati_sendiri : Ya, Tidak;
+
+
+
+ASK aplikasi : "Tidak dapat menggunakan touch screen dan membuka aplikasi apapun ?";
+CHOICES aplikasi : Ya, Tidak;
+
+ASK garis_pada_layar : "Terdapat Bercak atau Garis pada Layar  ?";
+CHOICES garis_pada_layar : Ya, Tidak;
+
+ASK layar_buram : "Apakah Layar Buram ?";
+CHOICES layar_buram : Ya, Tidak;
+
+ASK layar_pecah : "Apakah Layar Pecah ?";
+CHOICES layar_pecah : Ya, Tidak;
+
+
+
+ASK mengisi_daya : "Tidak Berhenti Mengisi Daya            ?";
+CHOICES mengisi_daya : Ya, Tidak;
+
+ASK proses : "Tidak Dapat Memproses Suatu Aplikasi   ?";
+CHOICES proses : Ya, Tidak;
+
+ASK reboot : "Smartphone Re-boot Secara Tiba-Tiba    ?";
+CHOICES reboot : Ya, Tidak;
