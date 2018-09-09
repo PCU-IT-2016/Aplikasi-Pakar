@@ -37,15 +37,18 @@ RULE 6
 IF K2 = Ya AND
    G9 = Ya AND
    G10 = Ya AND
-   G14 = Ya OR
-   G15 = Ya OR
-   G16 = Ya
+   G11 = Ya OR
+   G12 = Ya OR
+   G13 = Ya
 THEN Result = Diare_Dehidrasi_Ringan;
 
 RULE 7
 IF K2 = Ya AND
    G9 = Ya AND
-   G17 = Ya
+   G10 = Ya AND
+   G14 = Ya OR
+   G15 = Ya OR
+   G16 = Ya
 THEN Result = Diare_Dehidrasi_Ringan;
 
 RULE 8
@@ -57,13 +60,19 @@ THEN Result = Diare_Persisten;
 RULE 9
 IF K2 = Ya AND
    G9 = Ya AND
+   G17 = Ya AND
+   K2 = Ya AND
+   G9 = Ya AND
+   G10 = Ya AND
+   G11 = Ya OR
+   G12 = Ya OR
+   G13 = Ya OR
+   K2 = Ya AND
+   G9 = Ya AND
    G10 = Ya AND
    G14 = Ya OR
    G15 = Ya OR
-   G16 = Ya OR
-   K2 = Ya AND
-   G9 = Ya AND
-   G17 = Ya
+   G16 = Ya
 THEN Result = Diare_Persisten_Berat;
 
 RULE 10
