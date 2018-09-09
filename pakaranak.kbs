@@ -153,61 +153,178 @@ IF K3 = Ya AND
    G19 = Ya AND
    G35 = Ya OR
    G36 = Ya
-THEN Result = Demam_Bukan_DBD
+THEN Result = Demam_Bukan_DBD;
 
-ASK baterai_tidak_mengisi : "Baterai Tidak Dapat Mengisi ?";
-CHOICES baterai_tidak_mengisi : Ya, Tidak;
+ASK G1 : "Anak Tidak bisa minum atau menyusu ?";
+CHOICES G1 : Ya, Tidak;
 
-ASK baterai_drop : "Apakah Baterai Sering Drop   ?";
-CHOICES baterai_drop : Ya, Tidak;
+ASK G2 : "Anak memuntahkan makanan yang
+dimakan?";
+CHOICES G2 : Ya, Tidak;
 
-ASK baterai_cepat_panas : "Baterai Cepat Panas ?";
-CHOICES baterai_cepat_panas : Ya, Tidak;
+ASK G3 : "Anak menderita kejang?";
+CHOICES G3 : Ya, Tidak;
 
-ASK langsung_mati : "Langsung Mati Saat Menelfon  ?";
-CHOICES langsung_mati : Ya, Tidak;
+ASK G4 : "Anak tampak letargis atau tidak sadar?";
+CHOICES G4 : Ya, Tidak;
 
-ASK baterai_menggelembung : "Apakah Baterai Menggelembung ?";
-CHOICES baterai_menggelembung : Ya, Tidak;
+ASK G5 : "Napas Normal?";
+CHOICES G5 : Ya, Tidak;
 
+ASK G6 : "Napas cepat?";
+CHOICES G6 : Ya, Tidak;
 
+ASK G7 : "Tarikan dinding dada ke dalam?";
+CHOICES G7 : Ya, Tidak;
 
-ASK white_screen : "Apakah Sering Terjadi White Screen     ?";
-CHOICES white_screen : Ya, Tidak;
+ASK G8 : "Stridor?";
+CHOICES G8 : Ya, Tidak;
 
-ASK blank_screen : "Apakah Sering Terjadi Blank Screen     ?";
-CHOICES blank_screen : Ya, Tidak;
+ASK G9 : "Berak cair atau lembek?";
+CHOICES G89 : Ya, Tidak;
 
-ASK smartphone_panas : "Apakah Smartphone Anda Sering Panas    ?";
-CHOICES smartphone_panas : Ya, Tidak;
+ASK G10 : "Mata cekung?";
+CHOICES G10 : Ya, Tidak;
 
-ASK insert_sim_card : "Sering Terjadi Notifikasi 'insert sim card' ?";
-CHOICES insert_sim_card : Ya, Tidak;
+ASK G11 : "Cubitan kulit perut kembali lambat?";
+CHOICES G11 : Ya, Tidak;
 
-ASK mati_sendiri : "Smartphone Sering Mati Sendiri ?";
-CHOICES mati_sendiri : Ya, Tidak;
+ASK G12 : "Gelisah, rewel/mudah marah?";
+CHOICES G12 : Ya, Tidak;
 
+ASK G13 : "Haus, minum dengan lahap?";
+CHOICES G13 : Ya, Tidak;
 
+ASK G14 : "Cubitan kulit perut sangat lambat?";
+CHOICES G14 : Ya, Tidak;
 
-ASK aplikasi : "Tidak dapat menggunakan touch screen dan membuka aplikasi apapun ?";
-CHOICES aplikasi : Ya, Tidak;
+ASK G15 : "Anak tampak letargis atau tidak sadar?";
+CHOICES G15 : Ya, Tidak;
 
-ASK garis_pada_layar : "Terdapat Bercak atau Garis pada Layar  ?";
-CHOICES garis_pada_layar : Ya, Tidak;
+ASK G16 : "Tidak bisa minum atau malas minum?";
+CHOICES G16 : Ya, Tidak;
 
-ASK layar_buram : "Apakah Layar Buram ?";
-CHOICES layar_buram : Ya, Tidak;
+ASK G17 : "Diare 14 hari atau lebih?";
+CHOICES G17 : Ya, Tidak;
 
-ASK layar_pecah : "Apakah Layar Pecah ?";
-CHOICES layar_pecah : Ya, Tidak;
+ASK G18 : "Ada darah dalam tinja?";
+CHOICES G18 : Ya, Tidak;
 
+ASK G19 : "Suhu badan melebihi 37.5º C?";
+CHOICES G19 : Ya, Tidak;
 
+ASK G20 : "Kaku kuduk (anak tidak bisa menunduk
+hingga dagu mencapai dada)?";
+CHOICES G20 : Ya, Tidak;
 
-ASK mengisi_daya : "Tidak Berhenti Mengisi Daya            ?";
-CHOICES mengisi_daya : Ya, Tidak;
+ASK G21 : "Ruam kemerahan di kulit?";
+CHOICES G21 : Ya, Tidak;
 
-ASK proses : "Tidak Dapat Memproses Suatu Aplikasi   ?";
-CHOICES proses : Ya, Tidak;
+ASK G22 : "batuk pilek atau mata merah?";
+CHOICES G22 : Ya, Tidak;
 
-ASK reboot : "Smartphone Re-boot Secara Tiba-Tiba    ?";
-CHOICES reboot : Ya, Tidak;
+ASK G23 : "Luka di mulut yang dalam atau luas?";
+CHOICES G23 : Ya, Tidak;
+
+ASK G24 : "Kekeruhan pada kornea mata?";
+CHOICES G24 : Ya, Tidak;
+
+ASK G25 : "Luka di mulut?";
+CHOICES G25 : Ya, Tidak;
+
+ASK G26 : "Mata bernanah?";
+CHOICES G26 : Ya, Tidak;
+
+ASK G27 : "Demam 2 - 7 hari?";
+CHOICES G27 : Ya, Tidak;
+
+ASK G28 : "Demam mendadak tinggi dan terus
+menerus?";
+CHOICES G28 : Ya, Tidak;
+
+ASK G29 : "Nyeri di ulu hati?";
+CHOICES G29 : Ya, Tidak;
+
+ASK G30 : "bintik bintik merah?";
+CHOICES G30 : Ya, Tidak;
+
+ASK G31 : "Muntah bercampur darah / seperti kopi?";
+CHOICES G31 : Ya, Tidak;
+
+ASK G32 : "Tinja berwarna hitam?";
+CHOICES G32 : Ya, Tidak;
+
+ASK G33 : "Perdarahan dihidung dan gusi?";
+CHOICES G33 : Ya, Tidak;
+
+ASK G34 : "Syok dan gelisah?";
+CHOICES G34 : Ya, Tidak;
+
+ASK G35 : "Infeksi?";
+CHOICES G35 : Ya, Tidak;
+
+ASK G36 : "Pilek?";
+CHOICES G36 : Ya, Tidak;
+
+ASK P1 : "Tanda Bahaya Umum?";
+CHOICES P1 : Ya, Tidak;
+
+ASK P2 : "Batuk?";
+CHOICES P2 : Ya, Tidak;
+
+ASK P3 : "Pneumonia?";
+CHOICES P3 : Ya, Tidak;
+
+ASK P4 : "Pneumonia Berat?";
+CHOICES P4 : Ya, Tidak;
+
+ASK P5 : "Diare?";
+CHOICES P5 : Ya, Tidak;
+
+ASK P6 : "Diare Dehidrasi Ringan?";
+CHOICES P6 : Ya, Tidak;
+
+ASK P7 : "Diare Dehidrasi Berat?";
+CHOICES P7 : Ya, Tidak;
+
+ASK P8 : "Diare Persisten?";
+CHOICES P8 : Ya, Tidak;
+
+ASK P9 : "Diare Persisten Berat?";
+CHOICES P9 : Ya, Tidak;
+
+ASK P10 : "Disentri?";
+CHOICES P10 : Ya, Tidak;
+
+ASK P11 : "Demam?";
+CHOICES P11 : Ya, Tidak;
+
+ASK P12 : "Demam dengan Tanda Bahaya Umum?";
+CHOICES P12 : Ya, Tidak;
+
+ASK P13 : "Campak";
+CHOICES P13 : Ya, Tidak;
+
+ASK P14 : "Campak dengan komplikasi Berat?";
+CHOICES P14 : Ya, Tidak;
+
+ASK P15 : "Campak dengan komplikasi?";
+CHOICES P15 : Ya, Tidak;
+
+ASK P16 : "Demam mungkin DBD?";
+CHOICES P6 : Ya, Tidak;
+
+ASK P17 : "DBD?";
+CHOICES P17 : Ya, Tidak;
+
+ASK P18 : "Demam bukan DBD?";
+CHOICES P18 : Ya, Tidak;
+
+ASK K1 : "Batuk?";
+CHOICES K1 : Ya, Tidak;
+
+ASK K2 : "Diare?";
+CHOICES K3 : Ya, Tidak;
+
+ASK K3 : "Demam?";
+CHOICES K3 : Ya, Tidak;
