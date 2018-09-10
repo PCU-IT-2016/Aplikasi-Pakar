@@ -73,7 +73,7 @@ RULE 10
 IF 	P5 = Ya AND
    	G18 = Ya
 THEN Result = Disentri
-P11 = Ya;
+P10 = Ya;
 
 RULE 11
 IF 	K3 = Ya AND
@@ -188,7 +188,7 @@ CHOICES G17 : Ya, Tidak;
 ASK G18 : "Ada darah dalam tinja?";
 CHOICES G18 : Ya, Tidak;
 
-ASK G19 : "Suhu badan melebihi 37.5บ C?";
+ASK G19 : "Suhu badan melebihi 37.5ยบ C?";
 CHOICES G19 : Ya, Tidak;
 
 ASK G20 : "Kaku kuduk (anak tidak bisa menunduk
