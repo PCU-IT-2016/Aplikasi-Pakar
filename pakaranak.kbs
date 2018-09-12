@@ -1,4 +1,4 @@
-ACTIONS
+﻿ACTIONS
 	DISPLAY "Smartphone"
 	FIND Result
    DISPLAY "Kerusakan smartphone pada : {Result}-.";
@@ -181,7 +181,7 @@ ASK G8 : "Stridor?";
 CHOICES G8 : Ya, Tidak;
 
 ASK G9 : "Berak cair atau lembek?";
-CHOICES G89 : Ya, Tidak;
+CHOICES G9 : Ya, Tidak;
 
 ASK G10 : "Mata cekung?";
 CHOICES G10 : Ya, Tidak;

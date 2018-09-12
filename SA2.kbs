@@ -1,0 +1,256 @@
+ACTIONS
+DISPLAY "PAKAR ANAK"
+FIND Result2
+FIND Result
+DISPLAY "Penyakit1 : {Result}-{Result2}.";
+
+RULE 1
+IF 	G1 = Ya OR
+   	G2 = Ya OR
+   	G3 = Ya OR
+   	G4 = Ya 
+THEN Result2 = Tanda_Bahaya_Umum
+P1 = Ya;
+
+RULE 2
+IF 	K1 = Ya AND
+   	G5 = Ya
+THEN Result2 = Batuk
+P2 = Ya;
+
+RULE 3
+IF 	K1 = Ya AND
+   	G6 = Ya
+THEN Result2 = Pneumonia
+P3 = Ya;
+
+RULE 4
+IF 	K1 = Ya AND
+   	P1 = Ya OR
+   	G7 = Ya OR
+   	G8 = Ya
+THEN Result = Pneumonia_Berat
+P4 = Ya;
+
+RULE 5
+IF 	K2 = Ya AND
+   	G9 = Ya
+THEN Result2 = Diare
+P5 = Ya;
+
+RULE 6
+IF 	P5 = Ya AND
+   	G10 = Ya AND
+   	G11 = Ya OR
+   	G12 = Ya OR
+   	G13 = Ya
+THEN Result = Diare_Dehidrasi_Ringan
+P6 = Ya;
+
+RULE 7
+IF 	P5 = Ya AND
+   	G10 = Ya AND
+   	G14 = Ya OR
+   	G15 = Ya OR
+   	G16 = Ya
+THEN Result = Diare_Dehidrasi_Ringan
+P7 = Ya;
+
+RULE 8
+IF 	P5 = Ya AND
+  	G17 = Ya
+THEN Result = Diare_Persisten
+P8 = Ya;
+
+RULE 9
+IF 	P8 = Ya AND
+	P6 = Ya OR
+	P7 = Ya
+THEN Result = Diare_Persisten_Berat
+P9 = Ya;
+
+RULE 10
+IF 	P5 = Ya AND
+   	G18 = Ya
+THEN Result = Disentri
+P11 = Ya;
+
+RULE 11
+IF 	K3 = Ya AND
+   	G19 = Ya
+THEN Result2 = Demam
+P11 = Ya;
+
+RULE 12
+IF 	P1 = Ya AND
+	P11 = Ya OR
+	G20 = Ya
+THEN Result = Demam_dengan_tanda_bahaya_umum
+P12 = Ya;
+
+RULE 13
+IF 	P11 = Ya AND
+	G21 = Ya AND
+	G22 = Ya OR
+	G25 = Ya
+THEN Result = Campak
+P13 = Ya;
+
+RULE 14
+IF 	P13 = Ya AND
+	P1 = Ya AND
+	G23 = Ya OR
+	G24 = Ya
+THEN Result = Campak_dengan_komplikasi_berat
+P14 = Ya;
+
+RULE 15
+IF 	P13 = Ya AND
+   	G25 = Ya OR
+   	G26 = Ya
+THEN Result = Campak_dengan_komplikasi;
+
+RULE 16
+IF 	P11 = Ya AND
+   	G27 = Ya AND
+   	G28 = Ya AND 
+   	G29 = Ya OR
+   	G30 = Ya
+THEN Result = Demam_Mungkin_DBD;
+
+RULE 17
+IF 	P11 = Ya AND
+   	G27 = Ya AND
+   	G28 = Ya AND 
+   	G31 = Ya OR
+   	G32 = Ya OR
+   	G33 = Ya OR
+   	G34 = Ya
+THEN Result = DBD;
+
+RULE 18
+IF 	P11 = Ya AND
+   	G35 = Ya OR
+   	G36 = Ya
+THEN Result = Demam_Bukan_DBD;
+
+ASK G1 : "Anak Tidak bisa minum atau menyusu ?";
+CHOICES G1 : Ya, Tidak;
+
+ASK G2 : "Anak memuntahkan makanan yang dimakan?";
+CHOICES G2 : Ya, Tidak;
+
+ASK G3 : "Anak menderita kejang?";
+CHOICES G3 : Ya, Tidak;
+
+ASK G4 : "Anak tampak letargis atau tidak sadar?";
+CHOICES G4 : Ya, Tidak;
+
+ASK G5 : "Napas Normal?";
+CHOICES G5 : Ya, Tidak;
+
+ASK G6 : "Napas cepat?";
+CHOICES G6 : Ya, Tidak;
+
+ASK G7 : "Tarikan dinding dada ke dalam?";
+CHOICES G7 : Ya, Tidak;
+
+ASK G8 : "Stridor?";
+CHOICES G8 : Ya, Tidak;
+
+ASK G9 : "Berak cair atau lembek?";
+CHOICES G9 : Ya, Tidak;
+
+ASK G10 : "Mata cekung?";
+CHOICES G10 : Ya, Tidak;
+
+ASK G11 : "Cubitan kulit perut kembali lambat?";
+CHOICES G11 : Ya, Tidak;
+
+ASK G12 : "Gelisah, rewel/mudah marah?";
+CHOICES G12 : Ya, Tidak;
+
+ASK G13 : "Haus, minum dengan lahap?";
+CHOICES G13 : Ya, Tidak;
+
+ASK G14 : "Cubitan kulit perut sangat lambat?";
+CHOICES G14 : Ya, Tidak;
+
+ASK G15 : "Anak tampak letargis atau tidak sadar?";
+CHOICES G15 : Ya, Tidak;
+
+ASK G16 : "Tidak bisa minum atau malas minum?";
+CHOICES G16 : Ya, Tidak;
+
+ASK G17 : "Diare 14 hari atau lebih?";
+CHOICES G17 : Ya, Tidak;
+
+ASK G18 : "Ada darah dalam tinja?";
+CHOICES G18 : Ya, Tidak;
+
+ASK G19 : "Suhu badan melebihi 37.5º C?";
+CHOICES G19 : Ya, Tidak;
+
+ASK G20 : "Kaku kuduk (anak tidak bisa menunduk
+hingga dagu mencapai dada)?";
+CHOICES G20 : Ya, Tidak;
+
+ASK G21 : "Ruam kemerahan di kulit?";
+CHOICES G21 : Ya, Tidak;
+
+ASK G22 : "batuk pilek atau mata merah?";
+CHOICES G22 : Ya, Tidak;
+
+ASK G23 : "Luka di mulut yang dalam atau luas?";
+CHOICES G23 : Ya, Tidak;
+
+ASK G24 : "Kekeruhan pada kornea mata?";
+CHOICES G24 : Ya, Tidak;
+
+ASK G25 : "Luka di mulut?";
+CHOICES G25 : Ya, Tidak;
+
+ASK G26 : "Mata bernanah?";
+CHOICES G26 : Ya, Tidak;
+
+ASK G27 : "Demam 2 - 7 hari?";
+CHOICES G27 : Ya, Tidak;
+
+ASK G28 : "Demam mendadak tinggi dan terus
+menerus?";
+CHOICES G28 : Ya, Tidak;
+
+ASK G29 : "Nyeri di ulu hati?";
+CHOICES G29 : Ya, Tidak;
+
+ASK G30 : "bintik bintik merah?";
+CHOICES G30 : Ya, Tidak;
+
+ASK G31 : "Muntah bercampur darah / seperti kopi?";
+CHOICES G31 : Ya, Tidak;
+
+ASK G32 : "Tinja berwarna hitam?";
+CHOICES G32 : Ya, Tidak;
+
+ASK G33 : "Perdarahan dihidung dan gusi?";
+CHOICES G33 : Ya, Tidak;
+
+ASK G34 : "Syok dan gelisah?";
+CHOICES G34 : Ya, Tidak;
+
+ASK G35 : "Infeksi?";
+CHOICES G35 : Ya, Tidak;
+
+ASK G36 : "Pilek?";
+CHOICES G36 : Ya, Tidak;
+
+
+
+ASK K1 : "Batuk?";
+CHOICES K1 : Ya, Tidak;
+
+ASK K2 : "Diare?";
+CHOICES K2 : Ya, Tidak;
+
+ASK K3 : "Demam?";
+CHOICES K3 : Ya, Tidak;
