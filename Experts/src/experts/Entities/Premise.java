@@ -19,8 +19,12 @@ public class Premise {
     int     true_val        = -1;
     String  answer          = "";
     
+    // NILAI KETENTUAN PREMISE DARI RULE
+    int rules_premise_val = -1;
+    
     public LogicOperator operator = null;
     public ArrayList <Answer> list_of_answer = new ArrayList <Answer>();
+    public ArrayList <Premise> premises = null;
     
     public int getId() {
         return id;
@@ -53,6 +57,12 @@ public class Premise {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
+
+    public int getRules_premise_val() {
+        return rules_premise_val;
+    }
+    
+    
     
     public Premise(){
         
@@ -73,6 +83,13 @@ public class Premise {
         id          = _id;
         question    = _question;
         true_val    = _true_val;
+    }
+    
+    public Premise(int _id, String _question, int _true_val, int _premise_val){
+        id          = _id;
+        question    = _question;
+        true_val    = _true_val;
+        rules_premise_val = _premise_val;
     }
     
 }

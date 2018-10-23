@@ -113,31 +113,31 @@ public class FCDatabase {
                 rules.add(rule);
             }
             
-            // LOADS PREMISES DATA (ID, QUESTION, TRUE_VALUE_ID)
+            // LOADS PREMISES DATA (ID, QUESTION, TRUE_VALUE_ID), PREMISE_VAL (PREMIS = PREMISE_VAL)
             for (int i = 0; i < rules.size(); i++){
-                String query = "SELECT * FROM PREMISE P " + 
+                String query = "SELECT *, RP.PREMISE_VAL FROM PREMISE P " + 
                                "JOIN RULES_PREMISE RP ON P.id = RP.premise_id " + 
                                "JOIN RULE R ON R.id = RP.rule_id " + 
                                "WHERE R.id = " + rules.get(i).getId();
                 rs = stmt.executeQuery(query);
                 while (rs.next()){
-                    Premise premise = new Premise(rs.getInt(1), rs.getString(2), rs.getInt(3));
+                    Premise premise = new Premise(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt("RP.PREMISE_VAL"));
                     rules.get(i).premises.add(premise);
                 }
             }
             
             // LOADS EACH RULES PREMISE's OPERATORS
             for (int i = 0; i < rules.size(); i++){
+                String query = "SELECT * FROM LOGIC_OPERATOR LO " + 
+                                "JOIN RULES_PREMISE RP ON LO.ID = RP.OPERATOR_ID " + 
+                                "JOIN PREMISE P ON P.ID = RP.PREMISE_ID " + 
+                                "WHERE RP.rule_id = " + rules.get(i).getId();
+                rs = stmt.executeQuery(query);
                 for (int j = 0; j < rules.get(i).premises.size(); j++){
-                    String query = "SELECT * FROM LOGIC_OPERATOR LO " + 
-                                   "JOIN RULES_PREMISE RP ON LO.ID = RP.OPERATOR_ID " + 
-                                   "JOIN PREMISE P ON P.ID = RP.PREMISE_ID " + 
-                                   "WHERE P.ID = " + rules.get(i).premises.get(j).getId();
-                    rs = stmt.executeQuery(query);
-                    while(rs.next()){
-                        LogicOperator operator = new LogicOperator(rs.getInt(1), rs.getString(2));
-                        rules.get(i).premises.get(j).operator = operator;
-                    }
+                    rs.next();
+                    // System.out.println(rs.getString(2));
+                    LogicOperator operator = new LogicOperator(rs.getInt(1), rs.getString(2));
+                    rules.get(i).premises.get(j).operator = operator;
                 }
             }
             
@@ -155,6 +155,19 @@ public class FCDatabase {
                     }
                 }
             }
+            
+//            // LOADS PREMISE PREMISES
+//            for (int i = 0; i < rules.size(); i++){
+//                for (int j = 0; j < rules.get(i).premises.size(); j++){
+//                    String query = "SELECT * FROM PREMISE P JOIN PREMISE_PREMISES PP ON P.id = PP.premise_id " + 
+//                                   "WHERE P.id = " + rules.get(i).premises.get(j).getId();
+//                    rs = stmt.executeQuery(query);
+//                    while(rs.next()){
+//                        Premise premise = new Premise();
+//                    }
+//                }
+//            }
+//            
             rs.close();
             
             stmt.close();

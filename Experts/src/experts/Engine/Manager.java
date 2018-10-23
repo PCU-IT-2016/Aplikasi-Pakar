@@ -22,7 +22,7 @@ public class Manager {
         database = new FCDatabase();
         database.loadExperts();
         queue_table   = new QueueTable();
-        working_memory          = new WorkingMemory();
+        working_memory = new WorkingMemory();
     }
     
     public Manager(int experts_id) {
@@ -49,10 +49,11 @@ public class Manager {
     }
     
     public void showKnowledgeBase(){
+        System.out.println();
         for (Rule r : database.getRules()){
             System.out.println(r.getConclusion());
             for (Premise p : r.premises){
-                System.out.println(p.getQuestion() + " " + p.getTrue_val() + " " + p.operator.getOperator());
+                System.out.println(p.getQuestion() + " " +  p.getRules_premise_val() /*+ " " + p.getTrue_val()*/ + " " + p.operator.getOperator() );
                 for (Answer a : p.list_of_answer) {
                     System.out.print(a.getAnswer() + "\t , ");
                 }

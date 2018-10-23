@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2018 at 04:32 PM
+-- Generation Time: Oct 23, 2018 at 07:51 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -129,7 +129,7 @@ INSERT INTO `premise_answer_list` (`id`, `premise_id`, `answer_id`) VALUES
 (3, 9, 1),
 (4, 9, 2),
 (5, 11, 1),
-(6, 11, 1),
+(6, 11, 2),
 (7, 2, 1),
 (8, 2, 2),
 (9, 1, 1),
@@ -142,6 +142,32 @@ INSERT INTO `premise_answer_list` (`id`, `premise_id`, `answer_id`) VALUES
 (16, 12, 2),
 (17, 8, 1),
 (18, 8, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `premise_premises`
+--
+
+CREATE TABLE `premise_premises` (
+  `id` int(11) NOT NULL,
+  `premise_id` int(11) NOT NULL,
+  `premise_premise_id` int(11) NOT NULL,
+  `operator_id` int(11) NOT NULL,
+  `premise_value` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `premise_premises`
+--
+
+INSERT INTO `premise_premises` (`id`, `premise_id`, `premise_premise_id`, `operator_id`, `premise_value`) VALUES
+(1, 10, 2, 0, 0),
+(2, 10, 1, 0, 0),
+(3, 11, 7, 0, 0),
+(4, 11, 5, 0, 0),
+(5, 11, 8, 0, 0),
+(6, 12, 9, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -161,10 +187,7 @@ CREATE TABLE `rule` (
 
 INSERT INTO `rule` (`id`, `conclusion`, `expert_id`) VALUES
 (1, 'Terima', 1),
-(2, 'Tolak', 1),
-(5, 'Finansial', 1),
-(6, 'Akademik', 1),
-(7, 'Putra daerah', 1);
+(2, 'Tolak', 1);
 
 -- --------------------------------------------------------
 
@@ -176,20 +199,21 @@ CREATE TABLE `rules_premise` (
   `id` int(11) NOT NULL,
   `rule_id` int(11) NOT NULL,
   `premise_id` int(11) NOT NULL,
-  `operator_id` int(11) NOT NULL
+  `operator_id` int(11) NOT NULL,
+  `premise_val` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `rules_premise`
 --
 
-INSERT INTO `rules_premise` (`id`, `rule_id`, `premise_id`, `operator_id`) VALUES
-(13, 1, 9, 1),
-(14, 1, 2, 1),
-(15, 1, 1, 1),
-(16, 1, 7, 1),
-(17, 1, 5, 1),
-(18, 1, 8, 3);
+INSERT INTO `rules_premise` (`id`, `rule_id`, `premise_id`, `operator_id`, `premise_val`) VALUES
+(19, 1, 10, 1, 1),
+(20, 1, 11, 1, 1),
+(21, 1, 12, 3, 1),
+(22, 2, 10, 2, 0),
+(23, 2, 11, 2, 0),
+(25, 2, 12, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -251,6 +275,14 @@ ALTER TABLE `premise_answer_list`
   ADD PRIMARY KEY (`id`),
   ADD KEY `answer_id` (`answer_id`),
   ADD KEY `question_id` (`premise_id`) USING BTREE;
+
+--
+-- Indexes for table `premise_premises`
+--
+ALTER TABLE `premise_premises`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `premise_id` (`premise_id`),
+  ADD KEY `premise_premise_id` (`premise_premise_id`);
 
 --
 -- Indexes for table `rule`
@@ -316,16 +348,22 @@ ALTER TABLE `premise_answer_list`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
+-- AUTO_INCREMENT for table `premise_premises`
+--
+ALTER TABLE `premise_premises`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `rule`
 --
 ALTER TABLE `rule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `rules_premise`
 --
 ALTER TABLE `rules_premise`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `rules_status`
@@ -355,6 +393,13 @@ ALTER TABLE `premise`
 ALTER TABLE `premise_answer_list`
   ADD CONSTRAINT `premise_answer_list_ibfk_1` FOREIGN KEY (`answer_id`) REFERENCES `answer` (`id`),
   ADD CONSTRAINT `premise_answer_list_ibfk_2` FOREIGN KEY (`premise_id`) REFERENCES `premise` (`id`);
+
+--
+-- Constraints for table `premise_premises`
+--
+ALTER TABLE `premise_premises`
+  ADD CONSTRAINT `premise_premises_ibfk_1` FOREIGN KEY (`premise_id`) REFERENCES `premise` (`id`),
+  ADD CONSTRAINT `premise_premises_ibfk_2` FOREIGN KEY (`premise_premise_id`) REFERENCES `premise` (`id`);
 
 --
 -- Constraints for table `rules_premise`
