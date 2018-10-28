@@ -22,7 +22,11 @@ public class Rule {
         id          = _id;
         conclusion  = _conclusion;
     }
-
+    
+    public void showRuleOnConsole(){
+        System.out.println("RULES " + getId() + ". " + conclusion);
+    }
+    
     public int getId() {
         return id;
     }

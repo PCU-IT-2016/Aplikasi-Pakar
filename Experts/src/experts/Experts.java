@@ -20,12 +20,12 @@ public class Experts {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        FCDatabase db = new FCDatabase();
-        db.loadRules();
-        ArrayList <Rule> list = db.getRules();
-        for (Rule r : list){
-            System.out.println(r.getConclusion());
-        }
+//        FCDatabase db = new FCDatabase();
+//        // db.loadRules();
+//        ArrayList <Rule> list = db.getRules();
+//        for (Rule r : list){
+//            System.out.println(r.getConclusion());
+//        }
     }
     
 }

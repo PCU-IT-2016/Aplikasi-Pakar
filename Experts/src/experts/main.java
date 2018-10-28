@@ -34,7 +34,7 @@ public class main extends javax.swing.JFrame {
         
         // MANAGER LOAD EXPERTS WITH ID '1'
         manager = new Manager(1);
-        manager.showKnowledgeBase();
+        // manager.showKnowledgeBase();
         
 //        JRadioButton rad1 = new JRadioButton("Ya");
 //        JRadioButton rad2 = new JRadioButton("No");
@@ -49,7 +49,7 @@ public class main extends javax.swing.JFrame {
 //        rad2.setBounds(20, 40, 50, 20);
 //        
 //        panel1.add(rad1);
-//        panel1.add(rad2);
+//        panel1.add(rad2);&
         
     }
 
