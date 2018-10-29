@@ -1,3 +1,3 @@
-Expert System 
+# Expert System 
 
-University project creating inference engine
+Small project creating inference engine
