@@ -29,11 +29,18 @@ public class main extends javax.swing.JFrame {
     
     public Manager manager;
     
+    public Premise active_premise = new Premise();
+    
     public main() {
         initComponents();
         
         // MANAGER LOAD EXPERTS WITH ID '1'
         manager = new Manager(1);
+        manager.showKnowledgeBase();
+        
+        active_premise = manager.getNextPremise();
+        active_premise.showPremiseOnConsole();
+        QuestionLabel.setText(active_premise.getQuestion());
         // manager.showKnowledgeBase();
         
 //        JRadioButton rad1 = new JRadioButton("Ya");
@@ -67,6 +74,7 @@ public class main extends javax.swing.JFrame {
         buttonGroup3 = new javax.swing.ButtonGroup();
         panel1 = new javax.swing.JPanel();
         QuestionLabel = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,21 +82,32 @@ public class main extends javax.swing.JFrame {
 
         QuestionLabel.setText("Premise");
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(92, 92, 92)
-                .addComponent(QuestionLabel)
-                .addContainerGap(271, Short.MAX_VALUE))
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(QuestionLabel))
+                .addContainerGap(235, Short.MAX_VALUE))
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(75, 75, 75)
                 .addComponent(QuestionLabel)
-                .addContainerGap(211, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(182, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -104,6 +123,22 @@ public class main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if (active_premise == null) 
+            return;
+        
+        manager.setAnswer(active_premise, 0);
+        active_premise = manager.getNextPremise();
+        
+        if (active_premise == null){
+            QuestionLabel.setText("premise habis");
+        } else { 
+            active_premise.showPremiseOnConsole();
+            QuestionLabel.setText(active_premise.getQuestion());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,6 +180,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel panel1;
     // End of variables declaration//GEN-END:variables
 }

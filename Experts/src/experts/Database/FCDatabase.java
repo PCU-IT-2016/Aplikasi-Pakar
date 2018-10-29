@@ -77,7 +77,7 @@ public class FCDatabase {
             while(rs.next()) {
                 Premise loaded_premise = new Premise(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt("PP.PREMISE_VALUE"));
                 loaded_premise.premises = loadPremises(loaded_premise);
-                loaded_premise.showPremiseOnConsole();
+                // loaded_premise.showPremiseOnConsole();
                 loaded_premise.list_of_answer = loadAnswers(loaded_premise);
                 result.add(loaded_premise);
             }
@@ -172,7 +172,7 @@ public class FCDatabase {
                 rules.get(i).showRuleOnConsole();
                 for (int j = 0; j < rules.get(i).premises.size(); j++){
                     Premise p = rules.get(i).premises.get(j);
-                    p.showPremiseOnConsole();
+                    // p.showPremiseOnConsole();
                     rules.get(i).premises.get(j).premises = loadPremises(p);
                 }
             }

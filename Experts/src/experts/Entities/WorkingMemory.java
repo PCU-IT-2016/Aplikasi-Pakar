@@ -17,5 +17,4 @@ public class WorkingMemory {
     public HashMap memory = new HashMap();
     // memory.put(key, val);
     // memory.get(key)
-    
 }
