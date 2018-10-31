@@ -60,7 +60,7 @@ public class FCDatabase {
     }
     
     public ArrayList <Premise> loadPremises(Premise premise) throws SQLException{
-        ArrayList<Premise> result = new ArrayList<Premise>();
+        ArrayList<Premise> result = new ArrayList<Premise>(); // SHOULD BE NULL 
         String query = "        SELECT * FROM PREMISE P\n" +
                        "        WHERE P.id IN (\n" +
                        "            SELECT PP.premise_premise_id FROM premise_premises PP\n" +
@@ -74,6 +74,7 @@ public class FCDatabase {
             Connection conn = (Connection) DriverManager.getConnection(url, username, password);
             Statement stmt  = (Statement) conn.createStatement();
             ResultSet rs = stmt.executeQuery(query2); // RETURNS PREMISE PREMISES
+            // INITIALIZE `result` HERE 
             while(rs.next()) {
                 Premise loaded_premise = new Premise(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt("PP.PREMISE_VALUE"));
                 loaded_premise.premises = loadPremises(loaded_premise);

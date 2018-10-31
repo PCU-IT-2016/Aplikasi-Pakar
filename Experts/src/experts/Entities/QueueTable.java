@@ -21,4 +21,6 @@ public class QueueTable {
     
     public int current_state = 0;
     
+    public String current_rule_conclusion = "";
+    
 }

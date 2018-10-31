@@ -75,6 +75,7 @@ public class main extends javax.swing.JFrame {
         panel1 = new javax.swing.JPanel();
         QuestionLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        conclusionLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,6 +90,8 @@ public class main extends javax.swing.JFrame {
             }
         });
 
+        conclusionLabel.setText("Conclusion");
+
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
@@ -96,6 +99,7 @@ public class main extends javax.swing.JFrame {
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(92, 92, 92)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(conclusionLabel)
                     .addComponent(jButton1)
                     .addComponent(QuestionLabel))
                 .addContainerGap(235, Short.MAX_VALUE))
@@ -107,7 +111,9 @@ public class main extends javax.swing.JFrame {
                 .addComponent(QuestionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(182, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(conclusionLabel)
+                .addContainerGap(141, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -138,6 +144,11 @@ public class main extends javax.swing.JFrame {
             active_premise.showPremiseOnConsole();
             QuestionLabel.setText(active_premise.getQuestion());
         }
+        
+        if (manager.conclusionObtained()){
+            conclusionLabel.setText(manager.getQueueTable().current_rule_conclusion);
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -180,6 +191,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.JLabel conclusionLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel panel1;
     // End of variables declaration//GEN-END:variables

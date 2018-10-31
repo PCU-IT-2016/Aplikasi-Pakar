@@ -18,6 +18,7 @@ public class Manager {
     private QueueTable queue_table;
     private WorkingMemory working_memory;
     private int rule_pointer = 0;
+    private boolean conclusion_obtained = false;
     
     public Manager(){
         database = new FCDatabase();
@@ -35,6 +36,7 @@ public class Manager {
         queue_table = new QueueTable();
         // FIRST RULE TO TRIGGER
         queue_table.premises = database.getRules().get(rule_pointer).premises;
+        queue_table.current_rule_conclusion = database.getRules().get(rule_pointer++).getConclusion();
         
         // INITIALIZE WORKING MEMORY
         working_memory = new WorkingMemory();
@@ -54,7 +56,6 @@ public class Manager {
         for (Rule r : database.getRules()){
             System.out.println(r.getConclusion());
             for (Premise p : r.premises){
-                // System.out.println(p.getQuestion() + " " +  p.getRules_premise_val() /*+ " " + p.getTrue_val()*/ + " " + p.operator.getOperator() );
                 p.showPremiseOnConsole();
                 for (Answer a : p.list_of_answer) {
                     System.out.print(a.getAnswer() + "\t , ");
@@ -70,7 +71,9 @@ public class Manager {
             Premise premise_target = p.premises.get(i);
             if (premise_target.premises.size() > 0) {
                 // ADA PREMISE LAGI DALAM PREMISENYA PREMISE
-                return getNextPremise(premise_target);
+                Premise next_premise = getNextPremise(premise_target);
+                if (next_premise != null)
+                    return next_premise;
             }
             if (!working_memory.memory.containsKey(premise_target.getId())){
                 return premise_target;
@@ -80,9 +83,6 @@ public class Manager {
     }
     
     public Premise getNextPremise(){
-        // CHECK IF NEXT PREMISE WAS ALREADY ANSWERED OR NOT, LOOP THROUGH, 
-        // IF NOT FOUND ANY UNMARKED/UNANSWERED PREMISE
-        // GO TO THE NEXT RULE
         Premise premise = null;
         for (int i = 0; i < queue_table.premises.size(); i++){
             Premise premise_target = queue_table.premises.get(i);
@@ -99,22 +99,104 @@ public class Manager {
         return premise;
     }
     
+    private boolean getPremiseValue(Premise target){
+        for (int i = 0; i < target.premises.size(); i++){
+            Premise next_target = target.premises.get(i);
+            if (next_target.premises.size() > 0){
+                return getPremiseValue(next_target);
+            }
+            boolean answered = working_memory.memory.containsKey(next_target.getId());
+            if (answered){
+                int answered_value = (int) working_memory.memory.get(next_target.getId());
+                // System.out.println(next_target.getRules_premise_val() + " : " + answered_value);
+                if (next_target.getRules_premise_val() != answered_value) {
+                    return false;
+                }
+            } else {
+                // System.out.println("belum terjawab " + next_target.getQuestion() + next_target.getId());
+                System.out.println(working_memory.memory.toString());
+                // ASUMSI JIKA KETEMU 1 YANG BELUM TERJAWAB,
+                // SISAHNYA PASTI BELUM TERJAWAB
+                return true;
+            }
+        }
+        return true;
+    }
+    
+    private boolean getPremiseValue(){
+        for (int i = 0; i < queue_table.premises.size(); i++){
+            Premise premise_target = queue_table.premises.get(i);
+            if (premise_target.premises.size() > 0) {
+                if (!getPremiseValue(premise_target)){
+                    working_memory.cache.put(premise_target.getId(), false);
+                    return false;
+                }
+                if (isAllPremiseAnswered(premise_target)){
+                    working_memory.cache.put(premise_target.getId(), true);
+                }
+            }
+            else {
+                boolean answered = working_memory.memory.containsKey(premise_target.getId());
+                if (answered){
+                    int answered_value = (int) working_memory.memory.get(premise_target.getId());
+                    if (premise_target.getRules_premise_val() != answered_value){
+                        working_memory.cache.put(premise_target.getId(), false);
+                        return false;
+                    }
+                    if (isAllPremiseAnswered(premise_target)){
+                        working_memory.cache.put(premise_target.getId(), true);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
+    private boolean isAllPremiseAnswered() {
+        for (int i = 0; i < queue_table.premises.size(); i++){
+            Premise sample = queue_table.premises.get(i);
+            if (!working_memory.cache.containsKey(sample.getId()))
+                return false;
+        }
+        return true;
+    }
+    
+    private boolean isAllPremiseAnswered(Premise target) {
+        for (int i = 0; i < target.premises.size(); i++){
+            Premise sample = target.premises.get(i);
+            if (!working_memory.memory.containsKey(sample.getId()) && !working_memory.memory.containsKey(sample.getId()))
+                return false;
+        }
+        return true;
+    }
+    
     public boolean setAnswer(Premise premise, int answer_id){
         // TESTING
         working_memory.memory.put(premise.getId(), answer_id);
-        // IDE 1
-        // LOOP PREMISE ACTIVE RULE (QUEUE_TABLE), 
-        // CHECK PREMISE YANG SUDAH TERJAWAB DI WORKING MEMORY
-        // BANDINGKAN PREMISE YANG BERADA PADA QUEUE TABLE DENGAN WORKING MEMORY
-        // JIKA KETEMU YANG BUKAN ACTUAL PREMISE VALUE 
-        // CLEAR CURRENT QUEUE, SET QUEUE TO THE NEXT RULE
-        // CHECK PREMISE PADA `NEXT RULE`, 
-        // BANDINGKAN DENGAN PREMISE YG TELAH TERJAWAB PADA WORKING MEMORY
-        // JIKA KETEMU YANG BUKAN ACTUAL PREMISE VALUE
-        // GO TO THE NEXT RULE, ULANG SAMPAI KETEMU NEXT RULE YANG MASIH VALID
-        // ELSE SET CURRENT QUEUE TO THE `NEXT RULE`
-        // JIKA TIDAK KETEMU RULE YANG VALID, RETURN.
+        
+        if (getPremiseValue() == false){
+            // set queue table to the next rule
+            System.out.println("PREMISE FALSE, CHANGE TO THE NEXT RULE");
+            queue_table.premises = database.getRules().get(rule_pointer).premises;
+            queue_table.current_rule_conclusion = database.getRules().get(rule_pointer++).getConclusion();
+            // clear cache
+            working_memory.cache.clear();
+        } else {
+            System.out.println(working_memory.cache.toString());
+            if (isAllPremiseAnswered()){
+                conclusion_obtained = true;
+            }
+        }
+        
         return true;
+    }
+    
+    public boolean conclusionObtained(){
+        return conclusion_obtained;
+    }
+    
+    public QueueTable getQueueTable(){
+        return queue_table;
     }
     
 }
