@@ -17,8 +17,11 @@ public class Manager {
     private FCDatabase database;
     private QueueTable queue_table;
     private WorkingMemory working_memory;
+    
     private int rule_pointer = 0;
+    
     private boolean conclusion_obtained = false;
+    private boolean unknown_conclusion = false;
     
     public Manager(){
         database = new FCDatabase();
@@ -108,7 +111,7 @@ public class Manager {
             boolean answered = working_memory.memory.containsKey(next_target.getId());
             if (answered){
                 int answered_value = (int) working_memory.memory.get(next_target.getId());
-                // System.out.println(next_target.getRules_premise_val() + " : " + answered_value);
+                System.out.println(next_target.getRules_premise_val() + " : " + answered_value);
                 if (next_target.getRules_premise_val() != answered_value) {
                     return false;
                 }
@@ -176,9 +179,21 @@ public class Manager {
         
         if (getPremiseValue() == false){
             // set queue table to the next rule
+            if (rule_pointer >= database.getRules().size()) {
+                unknown_conclusion = true;
+                return false;
+            }
             System.out.println("PREMISE FALSE, CHANGE TO THE NEXT RULE");
-            queue_table.premises = database.getRules().get(rule_pointer).premises;
-            queue_table.current_rule_conclusion = database.getRules().get(rule_pointer++).getConclusion();
+            do {
+                if (rule_pointer >= database.getRules().size()){
+                    System.out.println("UNKNOWN CONCLUSION");
+                    unknown_conclusion = true;
+                    return false;
+                }
+                queue_table.premises = database.getRules().get(rule_pointer).premises;
+                queue_table.current_rule_conclusion = database.getRules().get(rule_pointer++).getConclusion();
+                System.out.println("CHECK! RULE: " + queue_table.current_rule_conclusion);
+            } while(getPremiseValue() != true);
             // clear cache
             working_memory.cache.clear();
         } else {
@@ -197,6 +212,10 @@ public class Manager {
     
     public QueueTable getQueueTable(){
         return queue_table;
+    }
+    
+    public boolean getUnknownConclusion(){
+        return unknown_conclusion;
     }
     
 }

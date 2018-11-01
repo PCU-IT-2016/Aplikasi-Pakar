@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2018 at 07:51 AM
+-- Generation Time: Nov 01, 2018 at 12:21 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -58,7 +58,8 @@ CREATE TABLE `experts` (
 --
 
 INSERT INTO `experts` (`id`, `name`, `description`) VALUES
-(1, 'beasiswa', 'uts ');
+(1, 'beasiswa', 'uts '),
+(2, 'Smartphone', 'diagnosa kerusakan pada Smartphone');
 
 -- --------------------------------------------------------
 
@@ -105,7 +106,19 @@ INSERT INTO `premise` (`id`, `question`, `true_val`) VALUES
 (9, 'ayah atau ibu memiliki nama marga asli putra daerah ?', 1),
 (10, 'Akademik terpenuhi', 1),
 (11, 'Finansial terpenuhi', 1),
-(12, 'Putra daerah terpenuhi', 1);
+(12, 'Putra daerah terpenuhi', 1),
+(13, 'Baterai Tidak Mengisi ?', 1),
+(14, 'Baterai Cepat Panas ?', 1),
+(15, 'Baterai menggelembung ?', 1),
+(16, 'Sering terjadi White Screen ?', 1),
+(17, 'Sering terjadi Blank Screen ?', 1),
+(18, 'Smartphone sering panas ?', 1),
+(22, 'Layar buram ?', 1),
+(23, 'Layar Pecah ?', 1),
+(24, 'Terdapat bercak atau garis pada layar ? ', 1),
+(25, 'Tidak berhenti mengisi daya ? ', 1),
+(26, 'Smartphone reboot secara tiba-tiba ? ', 1),
+(27, 'Tidak dapat memproses aplikasi ? ', 1);
 
 -- --------------------------------------------------------
 
@@ -141,7 +154,31 @@ INSERT INTO `premise_answer_list` (`id`, `premise_id`, `answer_id`) VALUES
 (15, 12, 1),
 (16, 12, 2),
 (17, 8, 1),
-(18, 8, 2);
+(18, 8, 2),
+(19, 22, 1),
+(20, 22, 2),
+(21, 23, 1),
+(22, 23, 2),
+(23, 24, 1),
+(24, 24, 2),
+(25, 16, 1),
+(26, 16, 2),
+(27, 18, 1),
+(28, 18, 2),
+(29, 17, 1),
+(30, 17, 2),
+(31, 13, 1),
+(32, 13, 2),
+(33, 25, 1),
+(34, 25, 2),
+(35, 26, 1),
+(36, 26, 2),
+(37, 27, 1),
+(38, 27, 2),
+(39, 14, 1),
+(40, 14, 2),
+(41, 15, 1),
+(42, 15, 2);
 
 -- --------------------------------------------------------
 
@@ -151,9 +188,8 @@ INSERT INTO `premise_answer_list` (`id`, `premise_id`, `answer_id`) VALUES
 
 CREATE TABLE `premise_premises` (
   `id` int(11) NOT NULL,
-  `premise_id` int(11) NOT NULL,
+  `rules_premise_id` int(11) NOT NULL,
   `premise_premise_id` int(11) NOT NULL,
-  `operator_id` int(11) NOT NULL,
   `premise_value` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -161,13 +197,19 @@ CREATE TABLE `premise_premises` (
 -- Dumping data for table `premise_premises`
 --
 
-INSERT INTO `premise_premises` (`id`, `premise_id`, `premise_premise_id`, `operator_id`, `premise_value`) VALUES
-(1, 10, 2, 0, 0),
-(2, 10, 1, 0, 0),
-(3, 11, 7, 0, 0),
-(4, 11, 5, 0, 0),
-(5, 11, 8, 0, 0),
-(6, 12, 9, 0, 0);
+INSERT INTO `premise_premises` (`id`, `rules_premise_id`, `premise_premise_id`, `premise_value`) VALUES
+(7, 19, 2, 1),
+(8, 19, 1, 1),
+(9, 20, 5, 1),
+(10, 20, 8, 1),
+(11, 20, 7, 1),
+(12, 21, 9, 1),
+(13, 22, 2, 2),
+(14, 22, 1, 2),
+(15, 23, 5, 2),
+(16, 23, 8, 2),
+(17, 23, 7, 2),
+(18, 25, 9, 2);
 
 -- --------------------------------------------------------
 
@@ -187,7 +229,11 @@ CREATE TABLE `rule` (
 
 INSERT INTO `rule` (`id`, `conclusion`, `expert_id`) VALUES
 (1, 'Terima', 1),
-(2, 'Tolak', 1);
+(2, 'Tolak', 1),
+(3, 'LCD', 2),
+(4, 'IC, PowerSupply', 2),
+(5, 'Software', 2),
+(6, 'Baterai', 2);
 
 -- --------------------------------------------------------
 
@@ -211,33 +257,23 @@ INSERT INTO `rules_premise` (`id`, `rule_id`, `premise_id`, `operator_id`, `prem
 (19, 1, 10, 1, 1),
 (20, 1, 11, 1, 1),
 (21, 1, 12, 3, 1),
-(22, 2, 10, 2, 0),
-(23, 2, 11, 2, 0),
-(25, 2, 12, 3, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `rules_status`
---
-
-CREATE TABLE `rules_status` (
-  `id` int(11) NOT NULL,
-  `rule_id` int(11) NOT NULL,
-  `status_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `status`
---
-
-CREATE TABLE `status` (
-  `id` int(11) NOT NULL,
-  `Symbol` varchar(8) NOT NULL,
-  `name` varchar(32) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+(22, 2, 10, 2, 2),
+(23, 2, 11, 2, 2),
+(25, 2, 12, 3, 2),
+(26, 3, 24, 1, 1),
+(27, 3, 23, 1, 1),
+(28, 3, 22, 1, 1),
+(29, 3, 16, 1, 1),
+(30, 4, 18, 1, 1),
+(31, 4, 16, 1, 1),
+(32, 4, 17, 1, 1),
+(33, 4, 13, 1, 1),
+(34, 5, 27, 1, 1),
+(35, 5, 26, 1, 1),
+(36, 5, 25, 1, 1),
+(37, 6, 15, 1, 1),
+(38, 6, 14, 1, 1),
+(39, 6, 25, 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -281,14 +317,15 @@ ALTER TABLE `premise_answer_list`
 --
 ALTER TABLE `premise_premises`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `premise_id` (`premise_id`),
-  ADD KEY `premise_premise_id` (`premise_premise_id`);
+  ADD KEY `premise_premise_id` (`premise_premise_id`),
+  ADD KEY `rules_premise_id` (`rules_premise_id`);
 
 --
 -- Indexes for table `rule`
 --
 ALTER TABLE `rule`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `expert_id` (`expert_id`);
 
 --
 -- Indexes for table `rules_premise`
@@ -298,20 +335,6 @@ ALTER TABLE `rules_premise`
   ADD KEY `rule_id` (`rule_id`),
   ADD KEY `question_id` (`premise_id`) USING BTREE,
   ADD KEY `operator_id` (`operator_id`);
-
---
--- Indexes for table `rules_status`
---
-ALTER TABLE `rules_status`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `rule_id` (`rule_id`),
-  ADD KEY `status_id` (`status_id`);
-
---
--- Indexes for table `status`
---
-ALTER TABLE `status`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -327,7 +350,7 @@ ALTER TABLE `answer`
 -- AUTO_INCREMENT for table `experts`
 --
 ALTER TABLE `experts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `logic_operator`
@@ -339,43 +362,31 @@ ALTER TABLE `logic_operator`
 -- AUTO_INCREMENT for table `premise`
 --
 ALTER TABLE `premise`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `premise_answer_list`
 --
 ALTER TABLE `premise_answer_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `premise_premises`
 --
 ALTER TABLE `premise_premises`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `rule`
 --
 ALTER TABLE `rule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `rules_premise`
 --
 ALTER TABLE `rules_premise`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
---
--- AUTO_INCREMENT for table `rules_status`
---
-ALTER TABLE `rules_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `status`
---
-ALTER TABLE `status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- Constraints for dumped tables
@@ -398,8 +409,14 @@ ALTER TABLE `premise_answer_list`
 -- Constraints for table `premise_premises`
 --
 ALTER TABLE `premise_premises`
-  ADD CONSTRAINT `premise_premises_ibfk_1` FOREIGN KEY (`premise_id`) REFERENCES `premise` (`id`),
-  ADD CONSTRAINT `premise_premises_ibfk_2` FOREIGN KEY (`premise_premise_id`) REFERENCES `premise` (`id`);
+  ADD CONSTRAINT `premise_premises_ibfk_2` FOREIGN KEY (`premise_premise_id`) REFERENCES `premise` (`id`),
+  ADD CONSTRAINT `premise_premises_ibfk_3` FOREIGN KEY (`rules_premise_id`) REFERENCES `rules_premise` (`id`);
+
+--
+-- Constraints for table `rule`
+--
+ALTER TABLE `rule`
+  ADD CONSTRAINT `rule_ibfk_1` FOREIGN KEY (`expert_id`) REFERENCES `experts` (`id`);
 
 --
 -- Constraints for table `rules_premise`
@@ -408,13 +425,6 @@ ALTER TABLE `rules_premise`
   ADD CONSTRAINT `rules_premise_ibfk_1` FOREIGN KEY (`premise_id`) REFERENCES `premise` (`id`),
   ADD CONSTRAINT `rules_premise_ibfk_2` FOREIGN KEY (`rule_id`) REFERENCES `rule` (`id`),
   ADD CONSTRAINT `rules_premise_ibfk_3` FOREIGN KEY (`operator_id`) REFERENCES `logic_operator` (`id`);
-
---
--- Constraints for table `rules_status`
---
-ALTER TABLE `rules_status`
-  ADD CONSTRAINT `rules_status_ibfk_1` FOREIGN KEY (`rule_id`) REFERENCES `rule` (`id`),
-  ADD CONSTRAINT `rules_status_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

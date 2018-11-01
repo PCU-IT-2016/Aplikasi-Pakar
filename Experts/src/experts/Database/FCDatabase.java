@@ -155,7 +155,7 @@ public class FCDatabase {
                     String query = "SELECT * FROM ANSWER A " + 
                                    "JOIN PREMISE_ANSWER_LIST PAL ON A.id = PAL.answer_id " + 
                                    "JOIN PREMISE P ON PAL.premise_id = P.id " + 
-                                   "WHERE P.id = " + rules.get(i).premises.get(i).getId();
+                                   "WHERE P.id = " + rules.get(i).premises.get(j).getId();
                     rs = stmt.executeQuery(query);
                     while(rs.next()){
                         Answer answer = new Answer(rs.getInt(1), rs.getString(2));

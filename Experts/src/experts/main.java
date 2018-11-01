@@ -12,9 +12,14 @@ import experts.Entities.Premise;
 import experts.Entities.QueueTable;
 import experts.Entities.Rule;
 import experts.Entities.WorkingMemory;
+import experts.Modified.swing.RadioButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
 /**
@@ -28,35 +33,24 @@ public class main extends javax.swing.JFrame {
      */
     
     public Manager manager;
-    
     public Premise active_premise = new Premise();
+    
+    public ArrayList <RadioButton> radio_buttons = new ArrayList <RadioButton> ();
+    
+    public ButtonGroup button_group = new ButtonGroup();
     
     public main() {
         initComponents();
         
-        // MANAGER LOAD EXPERTS WITH ID '1'
-        manager = new Manager(1);
+        // MANAGER LOAD EXPERTS WITH ID integer `X`
+        manager = new Manager(2);
         manager.showKnowledgeBase();
         
         active_premise = manager.getNextPremise();
         active_premise.showPremiseOnConsole();
-        QuestionLabel.setText(active_premise.getQuestion());
-        // manager.showKnowledgeBase();
+        QuestionLabel.setText("Question: " + active_premise.getQuestion());
         
-//        JRadioButton rad1 = new JRadioButton("Ya");
-//        JRadioButton rad2 = new JRadioButton("No");
-        
-//        ButtonGroup group = new ButtonGroup();
-//        group.add(rad1);
-//        group.add(rad2);
-//        
-//        rad1.setSelected(true);
-//        
-//        rad1.setBounds(20, 20, 50, 20);
-//        rad2.setBounds(20, 40, 50, 20);
-//        
-//        panel1.add(rad1);
-//        panel1.add(rad2);&
+        setButtons();
         
     }
 
@@ -74,7 +68,7 @@ public class main extends javax.swing.JFrame {
         buttonGroup3 = new javax.swing.ButtonGroup();
         panel1 = new javax.swing.JPanel();
         QuestionLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        submitButton = new javax.swing.JButton();
         conclusionLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -83,10 +77,10 @@ public class main extends javax.swing.JFrame {
 
         QuestionLabel.setText("Premise");
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        submitButton.setText("submit");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                submitButtonActionPerformed(evt);
             }
         });
 
@@ -100,27 +94,27 @@ public class main extends javax.swing.JFrame {
                 .addGap(92, 92, 92)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(conclusionLabel)
-                    .addComponent(jButton1)
+                    .addComponent(submitButton)
                     .addComponent(QuestionLabel))
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addContainerGap(245, Short.MAX_VALUE))
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(75, 75, 75)
                 .addComponent(QuestionLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
                 .addGap(27, 27, 27)
+                .addComponent(submitButton)
+                .addGap(18, 18, 18)
                 .addComponent(conclusionLabel)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(129, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,29 +122,101 @@ public class main extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
-        if (active_premise == null) 
+        
+        if (active_premise == null || manager.getUnknownConclusion()) 
             return;
         
-        manager.setAnswer(active_premise, 0);
-        active_premise = manager.getNextPremise();
-        
-        if (active_premise == null){
-            QuestionLabel.setText("premise habis");
-        } else { 
-            active_premise.showPremiseOnConsole();
-            QuestionLabel.setText(active_premise.getQuestion());
+        if (getSelectedAnswerId() <= 0){
+            JOptionPane.showMessageDialog(null, "Pilih 1 jawaban!", "alert", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
+        manager.setAnswer(active_premise, getSelectedAnswerId());
+        active_premise = manager.getNextPremise();
+        
+        if (manager.getUnknownConclusion()){
+            // RULE HABIS ato TIDAK ADA YANG PAS
+            QuestionLabel.setText("Question: -");
+            conclusionLabel.setText("Conclusion: UNKNOWN");
+            return;
+        }
+        
+        // PROCESS ACTIVE PREMISE
+        if (active_premise == null){
+            QuestionLabel.setText("Question: -");
+        } else { 
+            active_premise.showPremiseOnConsole();
+            QuestionLabel.setText("Question: " + active_premise.getQuestion());
+        }
+        
+        // CONCLUSION CHECK
         if (manager.conclusionObtained()){
             conclusionLabel.setText(manager.getQueueTable().current_rule_conclusion);
         }
         
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+        if (active_premise == null)
+            return;
+        
+        setButtons();
+        
+    }//GEN-LAST:event_submitButtonActionPerformed
+    
+    public int getSelectedAnswerId(){
+        for (int i = 0; i < radio_buttons.size(); i++){
+            RadioButton button = radio_buttons.get(i);
+            if (radio_buttons.get(i).getButton().isSelected())
+                return ((Answer)button.getValue()).getId();
+        }
+        return -1;
+    }
+    
+    public void clearButtons(){
+        radio_buttons.clear();
+        button_group = new ButtonGroup();
+    }
+    
+    public void setButtons(){
+        
+        for(int i = 0; i < radio_buttons.size(); i++){
+            panel1.remove(radio_buttons.get(i).getButton());
+        }
+        
+        radio_buttons.clear();
+        
+        for (int i = 0; i < active_premise.list_of_answer.size(); i++){
+            
+            RadioButton button = new RadioButton();
+            button.setValue(active_premise.list_of_answer.get(i));
+            button.setText(active_premise.list_of_answer.get(i).getAnswer());
+            
+            radio_buttons.add(button);
+            radio_buttons.get(i).getButton().setBounds(20, 20 * i, 50, 20);
+            
+            if (i == 0){
+                radio_buttons.get(i).getButton().setSelected(true);
+            }
+            
+            panel1.add(radio_buttons.get(i).getButton());
+            
+            radio_buttons.get(i).getButton().addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Answer ans = (Answer) button.getValue();
+                    System.out.println(ans.getId() + ans.getAnswer());
+                }
+            });
+            
+            button_group.add(radio_buttons.get(i).getButton());
+            
+        }
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -192,7 +258,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JLabel conclusionLabel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel panel1;
+    private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables
 }
