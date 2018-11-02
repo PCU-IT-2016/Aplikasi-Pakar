@@ -183,7 +183,7 @@ public class Manager {
                 unknown_conclusion = true;
                 return false;
             }
-            System.out.println("PREMISE FALSE, CHANGE TO THE NEXT RULE");
+            System.out.println("PREMISE FALSE, NEXT RULE");
             do {
                 if (rule_pointer >= database.getRules().size()){
                     System.out.println("UNKNOWN CONCLUSION");
@@ -216,6 +216,14 @@ public class Manager {
     
     public boolean getUnknownConclusion(){
         return unknown_conclusion;
+    }
+    
+    public WorkingMemory getMemory(){
+        return working_memory;
+    }
+    
+    public FCDatabase getDatabase(){
+        return database;
     }
     
 }

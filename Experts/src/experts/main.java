@@ -19,6 +19,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
@@ -39,18 +40,29 @@ public class main extends javax.swing.JFrame {
     
     public ButtonGroup button_group = new ButtonGroup();
     
+    public DefaultListModel list_model = new DefaultListModel();
+    public DefaultListModel list_model2 = new DefaultListModel();
+    
     public main() {
         initComponents();
         
+        setTitle("Expertise");
+        
         // MANAGER LOAD EXPERTS WITH ID integer `X`
-        manager = new Manager(2);
+        manager = new Manager(1);
         manager.showKnowledgeBase();
         
         active_premise = manager.getNextPremise();
         active_premise.showPremiseOnConsole();
         QuestionLabel.setText("Question: " + active_premise.getQuestion());
-        
+         
         setButtons();
+        
+        memory_item_list.setModel(list_model);
+        
+        active_rule_list.setModel(list_model2);
+        
+        setListReady();
         
     }
 
@@ -70,11 +82,18 @@ public class main extends javax.swing.JFrame {
         QuestionLabel = new javax.swing.JLabel();
         submitButton = new javax.swing.JButton();
         conclusionLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        memory_item_list = new javax.swing.JList<>();
+        workingMemoryLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        active_rule_list = new javax.swing.JList<>();
+        active_rule_label = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         panel1.setBackground(new java.awt.Color(204, 204, 255));
 
+        QuestionLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         QuestionLabel.setText("Premise");
 
         submitButton.setText("submit");
@@ -84,7 +103,28 @@ public class main extends javax.swing.JFrame {
             }
         });
 
+        conclusionLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         conclusionLabel.setText("Conclusion");
+
+        memory_item_list.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(memory_item_list);
+
+        workingMemoryLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        workingMemoryLabel.setText("Working Memory");
+
+        active_rule_list.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(active_rule_list);
+
+        active_rule_label.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        active_rule_label.setText("Active Rule");
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
@@ -93,21 +133,45 @@ public class main extends javax.swing.JFrame {
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(92, 92, 92)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(conclusionLabel)
-                    .addComponent(submitButton)
-                    .addComponent(QuestionLabel))
-                .addContainerGap(245, Short.MAX_VALUE))
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(QuestionLabel)
+                            .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(590, 596, Short.MAX_VALUE))
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addComponent(conclusionLabel)
+                        .addContainerGap(596, Short.MAX_VALUE))))
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(workingMemoryLabel)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addComponent(active_rule_label)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
-                .addGap(75, 75, 75)
+                .addGap(120, 120, 120)
                 .addComponent(QuestionLabel)
-                .addGap(27, 27, 27)
-                .addComponent(submitButton)
+                .addGap(18, 18, 18)
+                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(conclusionLabel)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(workingMemoryLabel)
+                    .addComponent(active_rule_label))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -136,13 +200,22 @@ public class main extends javax.swing.JFrame {
             return;
         }
         
-        manager.setAnswer(active_premise, getSelectedAnswerId());
+        int selectedAnswerId = getSelectedAnswerId(); 
+        manager.setAnswer(active_premise, selectedAnswerId);
+        
+        list_model.addElement(active_premise.getQuestion() + " : " + selectedAnswerId);
+        memory_item_list.setModel(list_model);
+        
         active_premise = manager.getNextPremise();
+        
+        setListReady();
         
         if (manager.getUnknownConclusion()){
             // RULE HABIS ato TIDAK ADA YANG PAS
             QuestionLabel.setText("Question: -");
             conclusionLabel.setText("Conclusion: UNKNOWN");
+            list_model2.removeAllElements();
+            active_rule_label.setText("Active Rule : -");
             return;
         }
         
@@ -180,6 +253,33 @@ public class main extends javax.swing.JFrame {
         button_group = new ButtonGroup();
     }
     
+    public void setListReady(){
+        list_model2.removeAllElements();
+        active_rule_label.setText("Active Rule: " + manager.getQueueTable().current_rule_conclusion);
+        for (int i = 0; i < manager.getQueueTable().premises.size(); i++){
+            Premise premise_target = manager.getQueueTable().premises.get(i);
+            list_model2.addElement(
+                    "<html>" + premise_target.getId() + ". " + premise_target.getQuestion() +
+                    "<br>value: " + premise_target.getRules_premise_val() + 
+                    "</html>"
+            );
+        }
+        
+        for (Object key : manager.getMemory().cache.keySet()){
+            for (int i = 0; i < manager.getQueueTable().premises.size(); i++){
+                Premise target = manager.getQueueTable().premises.get(i);
+                if ((int)key == target.getId()){
+                    list_model.addElement(
+                            target.getQuestion() + 
+                            " : " + 
+                            manager.getMemory().cache.get(key).toString()
+                    );
+                }
+            }
+        }
+        
+    }
+    
     public void setButtons(){
         
         for(int i = 0; i < radio_buttons.size(); i++){
@@ -195,7 +295,7 @@ public class main extends javax.swing.JFrame {
             button.setText(active_premise.list_of_answer.get(i).getAnswer());
             
             radio_buttons.add(button);
-            radio_buttons.get(i).getButton().setBounds(20, 20 * i, 50, 20);
+            radio_buttons.get(i).getButton().setBounds(250, 175 + i * 25, 50, 20);
             
             if (i == 0){
                 radio_buttons.get(i).getButton().setSelected(true);
@@ -254,11 +354,17 @@ public class main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel QuestionLabel;
+    private javax.swing.JLabel active_rule_label;
+    private javax.swing.JList<String> active_rule_list;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JLabel conclusionLabel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> memory_item_list;
     private javax.swing.JPanel panel1;
     private javax.swing.JButton submitButton;
+    private javax.swing.JLabel workingMemoryLabel;
     // End of variables declaration//GEN-END:variables
 }
